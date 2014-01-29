@@ -16,8 +16,8 @@
     <script type="text/javascript" src="assets/scripts/smoothscroll.js"></script>
     <script type="text/javascript" src="assets/scripts/jquery.nivo.slider.pack.js"></script>
     <script type="text/javascript" src="assets/scripts/functions.js"></script>
-    <script type="text/javascript" src="assets/scripts/OpenLayers.debug.js"></script>
-    <script type="text/javascript" src="assets/scripts/myMap.js"></script>
+    <!--     <script type="text/javascript" src="assets/scripts/OpenLayers.debug.js"></script>
+    <script type="text/javascript" src="assets/scripts/myMap.js"></script> -->
     <title>Immaculate | Free One Page Portfolio Template</title>
 </head>
 
@@ -101,25 +101,39 @@
     });
 
     var cp = require('child_process');
-    var child;
+    var win = gui.Window.get();
+    var child = win.gpsProc;
 
     menu.append(new gui.MenuItem({
             label: 'bla',
             click: function() {
                 if (child === undefined || child.killed) {
-                    child = cp.fork('F:\\gitProjects\\trakgui_win\\js\\child.js', {
+                    //child speichern in globaler gpsProc damit beim reload der seite der verweis auf den child process nicht verloren geht
+                    child = win.gpsProc = cp.fork('F:\\gitProjects\\nw_win\\js\\child.js', {
                         execPath: "C:\\Proggis\\PortableApps\\nodist\\v\\0.10.25\\node.exe"
                     });
-                    child.on('message', function(m) {
-                        // Receive results from child process
-                        console.log('received: ' + m);
-                    });
+                    attachChild();
                     child.send("startgps");
                 }
             }
         }
 
     ));
+
+    if (child !== undefined) {
+        attachChild();
+    }
+
+    function attachChild() {
+        child.on('message', function(m) {
+            // Receive results from child process
+            try {
+                console.log('received: ' + m);
+            } catch (e) {
+
+            }
+        });
+    }
 
     menu.append(new gui.MenuItem({
             label: 'bla1',
