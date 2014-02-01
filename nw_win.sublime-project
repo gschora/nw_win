@@ -1,0 +1,17 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "."
+		},
+		{
+			"follow_symlinks": true,
+			"path": "F:\\gitProjects_external\\proj4js\\lib"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "F:\\gitProjects_external\\ol3\\src\\ol"
+		}
+	]
+}
